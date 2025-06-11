@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js Image Generator API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>p5.js Image Generator API</h1>
+    <p>This service generates images from p5.js sketches via API calls.</p>
+    
+    <h2>Usage</h2>
+    <p>Send a POST request to <code>/api/generate-image</code> with your parameters:</p>
+    
+    <pre><code>fetch('/api/generate-image', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    width: 800,
+    height: 600,
+    circles: 5,
+    circleColor: 'blue',
+    text: 'Hello World'
+  })
+});</code></pre>
+
+    <h2>Test the API</h2>
+    <button onclick="testAPI()">Generate Test Image</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Generating image...';
+            
+            try {
+                const response = await fetch('/api/generate-image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        width: 400,
+                        height: 400,
+                        circles: 3,
+                        circleColor: 'blue',
+                        circleSize: 80,
+                        text: 'Test Image',
+                        textColor: 'red',
+                        bgColor: 'lightblue'
+                    })
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const imageUrl = URL.createObjectURL(blob);
+                    resultDiv.innerHTML = `<img src="${imageUrl}" alt="Generated image" style="max-width: 100%; border: 1px solid #ddd;">`;
+                } else {
+                    resultDiv.innerHTML = `Error: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
