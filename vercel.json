@@ -1,13 +1,28 @@
 {
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/generate-image.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/generate-image",
+      "dest": "/api/generate-image.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
   "functions": {
     "api/generate-image.js": {
       "maxDuration": 30
     }
-  },
-  "rewrites": [
-    {
-      "source": "/((?!api/.*).*)",
-      "destination": "/index.html"
-    }
-  ]
+  }
 }

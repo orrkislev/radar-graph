@@ -1,9 +1,9 @@
 {
   "name": "p5js-image-generator",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vercel dev",
-    "build": "echo 'No build step needed'",
     "start": "vercel dev"
   },
   "dependencies": {
